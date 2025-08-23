@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
+import localFont from "next/font/local"
 import "./globals.css";
 import { RegionProvider } from "@/providers/region";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/modules/Layout/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const SpaceGroteskFont = localFont({
+  src: "../fonts/SpaceGrotesk.ttf"
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +24,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${SpaceGroteskFont.className} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <RegionProvider>
