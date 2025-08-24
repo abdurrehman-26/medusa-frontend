@@ -19,7 +19,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
     <Link href={`/products/${product.handle}`}>
       <Card className='p-0 overflow-hidden w-62'>
         <CardContent className='p-0'>
-          <div className='aspect-square overflow-hidden box-content border-b border-foreground/5'>
+          <div className='aspect-square overflow-hidden box-content border-b border-foreground/5 rounded-t-xl'>
             <Image
               alt='product-image' 
               src={productImage}
