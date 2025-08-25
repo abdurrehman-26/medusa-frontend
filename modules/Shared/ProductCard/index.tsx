@@ -5,6 +5,7 @@ import { formatPrice } from '@/lib/utils'
 import { HttpTypes } from '@medusajs/types'
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
@@ -15,6 +16,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
     console.log("Added to cart")
   }
   return (
+    <Link href={`/products/${product.handle}`}>
       <Card className='p-0 overflow-hidden w-56'>
         <CardContent className='p-0'>
           <div className='aspect-square overflow-hidden box-content border-b border-foreground/5 rounded-t-xl'>
@@ -39,7 +41,8 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </Card>  
+    </Link>
   )
 }
 
