@@ -1,5 +1,6 @@
 import { listProducts } from "@/lib/data/products";
 import { getRegion } from "@/lib/data/regions";
+import { Carousel } from "@/modules/Shared/Carousel";
 import ProductCard from "@/modules/Shared/ProductCard";
 import { cookies as nextCookies } from "next/headers";
 
@@ -10,9 +11,30 @@ export default async function Home() {
   const productsResponse = await listProducts({
     regionId: region_id
   })
+  const SLIDES = [
+    {
+      imageurl:
+        "https://res.cloudinary.com/dxpjusmf7/image/upload/v1753705937/8d6efb0d-35ac-4611-9664-13404fd5b796_PK-1976-688.jpg_2200x2200q80.jpg__bytjb2.webp",
+    },
+    {
+      imageurl:
+        "https://res.cloudinary.com/dxpjusmf7/image/upload/v1753705982/99887c7a-ecb6-4010-be8b-44f54e295193_PK-1976-688.jpg_2200x2200q80.jpg__qltbnz.webp",
+    },
+    {
+      imageurl:
+        "https://res.cloudinary.com/dxpjusmf7/image/upload/v1753705997/a2e8a274-cfb1-41fe-9dee-3b543cde1f75_PK-1976-688.jpg_2200x2200q80.jpg__smr1sj.webp",
+    },
+    {
+      imageurl:
+        "https://res.cloudinary.com/dxpjusmf7/image/upload/v1753706004/ca544c06-44d7-40bf-914c-1d0b54c90c91_PK-1976-688.jpg_2200x2200q80.jpg__fwbhtr.webp",
+    },
+  ];
   return (
-    <div className="font-sans py-10 min-h-screen">
-      <main className="flex justify-center items-center flex-wrap gap-10 px-5">
+    <div>
+      <div className="py-5 sm:py-10 flex justify-center w-full">
+        <Carousel slides={SLIDES} />
+      </div>
+      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-items-center gap-5">
         {productsResponse.response.products.map((product) => {
           return (
             <ProductCard key={product.id} product={product} />
