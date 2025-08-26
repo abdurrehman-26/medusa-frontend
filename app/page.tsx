@@ -1,16 +1,14 @@
-import { listProducts } from "@/lib/data/products";
 import { getRegion } from "@/lib/data/regions";
+import { sdk } from "@/lib/sdk";
+import CollectionsSection from "@/modules/Home/CollectionsSection";
 import { Carousel } from "@/modules/Shared/Carousel";
-import ProductCard from "@/modules/Shared/ProductCard";
 import { cookies as nextCookies } from "next/headers";
 
 export default async function Home() {
   const cookies = await nextCookies()
   const defaultRegion = await getRegion(process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION!)
   const region_id = cookies.get("region_id")?.value || defaultRegion?.id
-  const productsResponse = await listProducts({
-    regionId: region_id
-  })
+  const productCollections = (await sdk.store.collection.list()).collections
   const SLIDES = [
     {
       imageurl:
@@ -34,12 +32,8 @@ export default async function Home() {
       <div className="py-5 sm:py-10 flex justify-center w-full">
         <Carousel slides={SLIDES} />
       </div>
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-items-center gap-5">
-        {productsResponse.response.products.map((product) => {
-          return (
-            <ProductCard key={product.id} product={product} />
-          )
-        })}
+      <main>
+        <CollectionsSection collections={productCollections} regionId={region_id!} />
       </main>
     </div>
   );
