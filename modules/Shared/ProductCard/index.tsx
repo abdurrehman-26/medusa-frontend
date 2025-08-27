@@ -15,6 +15,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
     e.stopPropagation();  // stops bubbling to parent
     console.log("Added to cart")
   }
+  console.log(product)
   return (
     <Link href={`/products/${product.handle}`}>
       <Card className='p-0 overflow-hidden w-56'>
@@ -30,7 +31,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
           <div className='p-1 px-2 pb-2 mt-1'>
             <div className='px-1'>
               <p className='truncate font-medium text-lg mb-2'>{product.title}</p>
-              <p className='truncate text-sm mb-1'>{product.collection?.title || "Unknown Collection"}</p>
+              <p className='truncate text-sm mb-1'>{product.categories?.[0]?.name || "Unknown"}</p>
               <p className="truncate text-sm text-foreground/70 mb-2">
                 {formatPrice(product.variants?.[0]?.calculated_price?.calculated_amount ?? 0)}
               </p>

@@ -9,7 +9,8 @@ const CollectionsSection = ({collections, regionId}: {collections: StoreCollecti
       {collections.map(async (collection) => {
         const products = await sdk.store.product.list({
             collection_id: collection.id,
-            region_id: regionId
+            region_id: regionId,
+            fields: "*categories"
         }).then((response) => response.products)
         return (
             <TitledProductRail key={collection.id} title={collection.title} products={products} />
