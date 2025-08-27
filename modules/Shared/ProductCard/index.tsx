@@ -13,9 +13,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
   const addtoCartHandle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();   // stops the link navigation
     e.stopPropagation();  // stops bubbling to parent
-    console.log("Added to cart")
   }
-  console.log(product)
   return (
     <Link href={`/products/${product.handle}`}>
       <Card className='p-0 overflow-hidden w-56'>
