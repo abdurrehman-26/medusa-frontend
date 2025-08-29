@@ -10,7 +10,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 flex h-12 sm:h-16 items-center justify-between">
         
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold">
+        <Link href="/" className="text-2xl font-bold text-primary">
           MyStore
         </Link>
 
