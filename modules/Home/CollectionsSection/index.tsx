@@ -1,19 +1,23 @@
-import { StoreCollection } from '@medusajs/types'
 import React from 'react'
-import TitledProductRail from '../TitledProductRail'
-import { sdk } from '@/lib/sdk'
+import Collection from '../Collection'
 
-const CollectionsSection = ({collections, regionId}: {collections: StoreCollection[], regionId: string}) => {
+const CollectionsSection = ({regionId}: {regionId: string}) => {
+  const collections = [
+    {
+      handle: "men"
+    },
+    {
+      handle: "women"
+    },
+    {
+      handle: "kids"
+    }
+  ]
   return (
     <div>
-      {collections.map(async (collection) => {
-        const products = await sdk.store.product.list({
-            collection_id: collection.id,
-            region_id: regionId,
-            fields: "*categories"
-        }).then((response) => response.products)
+      {collections.map((collection) => {
         return (
-            <TitledProductRail key={collection.id} title={collection.title} products={products} />
+          <Collection key={collection.handle} region_id={regionId} handle={collection.handle} />
         )
       })}
     </div>
