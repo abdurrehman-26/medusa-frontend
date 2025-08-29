@@ -4,6 +4,7 @@ import "./globals.css";
 import { RegionProvider } from "@/providers/region";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/modules/Layout/Navbar";
+import Footer from "@/modules/Layout/Footer";
 
 const SpaceGroteskFont = localFont({
   src: "../fonts/SpaceGrotesk.ttf"
@@ -31,6 +32,7 @@ export default function RootLayout({
             <main className="px-2 sm:px-4 md:px-6 mx-auto max-w-7xl min-h-screen">
               {children}
             </main>
+            <Footer />
           </RegionProvider>
         </ThemeProvider>
       </body>
