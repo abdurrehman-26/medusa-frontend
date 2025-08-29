@@ -7,6 +7,8 @@ const TitledProductRail = async ({title, products}: {title: string, products: St
   return (
     <div className='mb-10'>
       <h1 className='text-4xl font-semibold text-center mb-5'>{title}</h1>
+      {products.length !== 0 ?
+      <>
       <div className='product-grid'>
         {products.map((product) => {
             return (
@@ -19,6 +21,9 @@ const TitledProductRail = async ({title, products}: {title: string, products: St
             View all
         </Button>
       </div>
+      </> : (
+        <p className='text-center text-xl my-10'>No Products Found</p>
+      )}
     </div>
   )
 }
