@@ -8,6 +8,7 @@ import Footer from "@/modules/Layout/Footer";
 import { cookies } from "next/headers";
 import { sdk } from "@/lib/sdk";
 import { StoreProvider } from "@/providers/store-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const SpaceGroteskFont = localFont({
   src: "../fonts/SpaceGrotesk.ttf"
@@ -27,17 +28,17 @@ export default async function RootLayout({
   const userCookies = await cookies();
   const cartId = userCookies.get("cartId")?.value.toString()
   const cartData = await sdk.store.cart.retrieve(cartId!)
-  console.log(cartData)
   return (
     <html suppressHydrationWarning lang="en">
       <body
         className={`${SpaceGroteskFont.className} antialiased`}
       >
+        <Toaster />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <RegionProvider>
             <StoreProvider preloadedState={{
               cart: {
-                items: cartData.cart.items,
+                items: cartData?.cart?.items || [],
                 loading: false,
                 error: null,
               },
