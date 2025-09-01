@@ -1,8 +1,9 @@
-import { ShoppingCart, Search, User, Package2, LogOut } from "lucide-react";
+import { Search, User, Package2, LogOut } from "lucide-react";
 import Link from "next/link";
 import ThemeToggle from "@/modules/Shared/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import CartButton from "../CartButton";
 
 export default function Navbar() {
   return (
@@ -25,14 +26,7 @@ export default function Navbar() {
           <ThemeToggle />
 
           {/* Cart */}
-          <Button asChild className="rounded-full" size="icon" variant="ghost">
-            <Link href="/cart" className="relative">
-              <ShoppingCart size={20} />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
-                3
-              </span>
-            </Link>
-          </Button>
+          <CartButton />
 
           {/* User Menu */}
           <DropdownMenu>
