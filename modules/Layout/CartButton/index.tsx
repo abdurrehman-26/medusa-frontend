@@ -12,7 +12,7 @@ const CartButton = () => {
   const cartCount = useAppSelector((state) =>
     state.cart.items?.reduce((total: number, item: HttpTypes.StoreCartLineItem) => total + item.quantity, 0)
   );
-  const cartId = Cookies.get("cart_Id")
+  const cartId = Cookies.get("cartId")
   const region_id = Cookies.get("region_id")
   const createCart = async () => {
     const createdCart =  await sdk.store.cart.create({
