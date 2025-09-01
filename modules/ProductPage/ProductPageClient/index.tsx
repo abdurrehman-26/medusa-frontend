@@ -5,11 +5,33 @@ import { cn, formatPrice } from '@/lib/utils'
 import { StoreProduct } from '@medusajs/types'
 import { Button } from '@/components/ui/button';
 import { Minus, Plus } from 'lucide-react';
+import { sdk } from '@/lib/sdk';
+import { toast } from 'sonner';
+import Cookies from 'js-cookie';
+import { useAppDispatch } from '@/store/hooks';
+import { setCart } from '@/features/cart/cartSlice';
 
 const ProductPageClient = ({product}: {product: StoreProduct}) => {
 
-  const addToCartHandle = () => {
-    console.log("Adding to cart", product.id)
+  const dispatch = useAppDispatch()
+
+  const addToCartHandle = (variant_id?: string) => {
+    const cartId = Cookies.get("cartId")
+
+    if (!cartId || !variant_id) {
+      return
+    }
+
+    sdk.store.cart.createLineItem(cartId, {
+      variant_id,
+      quantity: cartQuantity,
+    })
+    .then(({cart}) => {
+      if (cart.items) {
+        dispatch(setCart(cart.items))
+        toast.success("Product added to cart")
+      }
+    })
   }
 
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(() => {
@@ -91,7 +113,7 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
                   <Plus />
                 </button>
               </div>
-              <Button type='button' className='flex-grow rounded-full' onClick={addToCartHandle}>Add to cart</Button>
+              <Button type='button' className='flex-grow rounded-full' onClick={() => addToCartHandle(selectedVariant?.id)}>Add to cart</Button>
             </div>
         </div>
     </div>
