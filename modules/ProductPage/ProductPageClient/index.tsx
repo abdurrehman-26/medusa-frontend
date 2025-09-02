@@ -103,7 +103,7 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
                 ))}
               </ul>
             )}
-            <div className='py-3 flex gap-3'>
+            <div className='py-5 flex gap-3'>
               <div className='flex bg-accent p-1 rounded-full'>
                 <button type='button' onClick={() => setCartQuantity(cartQuantity - 1)}>
                   <Minus />
