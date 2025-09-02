@@ -8,10 +8,10 @@ import CartButton from "../CartButton";
 export default function Navbar() {
   return (
     <header className="bg-background border-b border-border sticky top-0 z-50 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 flex h-12 sm:h-16 items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 flex h-12 md:h-16 items-center justify-between">
         
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-primary">
+        <Link href="/" className="text-xl md:text-2xl font-bold text-primary">
           MyStore
         </Link>
 
@@ -60,6 +60,18 @@ export default function Navbar() {
             </DropdownMenuContent>
           </DropdownMenu>
 
+        </div>
+
+        {/* Right Icons mobile */}
+        <div className="flex md:hidden items-center space-x-2">
+          <button className="cursor-pointer">
+            <Search size={20} />
+          </button>
+          <CartButton />
+          {/* Mobile user link */}
+          <Link href="user">
+            <User size={20} />
+          </Link>
         </div>
       </div>
     </header>
