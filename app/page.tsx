@@ -1,11 +1,16 @@
-import { getRegion } from "@/lib/data/regions";
+import { sdk } from "@/lib/sdk";
 import CollectionsSection from "@/modules/Home/CollectionsSection";
 import { Carousel } from "@/modules/Shared/Carousel";
 import { cookies as nextCookies } from "next/headers";
 
 export default async function Home() {
   const cookies = await nextCookies()
-  const defaultRegion = await getRegion(process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION!)
+  const regionsResponse = await sdk.store.region.list()
+  const defaultRegion = regionsResponse.regions.find(region =>
+    region.countries?.some(
+      country => country.iso_2 === process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION
+    )
+  )
   const region_id = cookies.get("region_id")?.value || defaultRegion?.id
   const SLIDES = [
     {
