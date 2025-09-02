@@ -105,11 +105,11 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
             )}
             <div className='py-5 flex gap-3'>
               <div className='flex bg-accent p-1 rounded-full'>
-                <button type='button' onClick={() => setCartQuantity(cartQuantity - 1)}>
+                <button className='cursor-pointer' type='button' onClick={() => setCartQuantity(cartQuantity - 1)}>
                   <Minus />
                 </button>
                   <input type="text" value={cartQuantity} className='max-w-10 outline-none text-center' onChange={(e) => setCartQuantity(Number(e.target.value))} />
-                <button type='button' onClick={() => setCartQuantity(cartQuantity + 1)}>
+                <button className='cursor-pointer' type='button' onClick={() => setCartQuantity(cartQuantity + 1)}>
                   <Plus />
                 </button>
               </div>
