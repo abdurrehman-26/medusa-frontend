@@ -64,12 +64,12 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
   const [cartQuantity, setCartQuantity] = useState<number>(1)
 
   return (
-    <div className='grid grid-cols-12 sm:gap-5 pt-3'>
+    <div className='grid grid-cols-12 sm:gap-5 pt-3 sm:pt-10'>
         <div className='col-span-12 sm:col-span-6'>
             <ProductCarousel slides={product.images} />
         </div>
         <div className='col-span-12 sm:col-span-6 max-sm:pt-3'>
-            <p className='text-2xl font-bold'>{product.title}</p>
+            <p className='text-3xl font-bold max-sm:mt-5'>{product.title}</p>
             <div className='py-2 flex gap-2'>
                 <p className={cn(`truncate text-xl text-foreground/70 font-bold`, selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && "line-through")}>{formatPrice(selectedVariant?.calculated_price?.original_amount ?? 0)}</p>
                 {selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && <p className="truncate text-sm text-foreground/70">{formatPrice(selectedVariant?.calculated_price?.calculated_amount ?? 0)}</p>}
