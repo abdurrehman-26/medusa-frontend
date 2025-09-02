@@ -27,7 +27,7 @@ const CartButton = () => {
     <Button asChild className="rounded-full" size="icon" variant="ghost">
         <Link href="/cart" className="relative">
             <ShoppingCart size={20} />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1 size-4 flex justify-center items-center">
               {cartCount}
             </span>
         </Link>
