@@ -18,7 +18,7 @@ const CartButton = () => {
     const createdCart =  await sdk.store.cart.create({
         region_id
     })
-    Cookies.set("cartId", createdCart.cart.id)
+    Cookies.set("cartId", createdCart.cart.id, { expires: 7 })
   }
   if (!cartId) {
     createCart()
