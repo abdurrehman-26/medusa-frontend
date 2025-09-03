@@ -28,7 +28,7 @@ const CartButton = () => {
         <Link href="/cart" className="relative">
             <ShoppingCart size={20} />
             <div className="absolute -top-0.25 -right-0.25 text-primary size-4 flex justify-center items-center">
-              <span className='text-xs'>{cartCount && cartCount < 10 ? cartCount : "9+"}</span>
+              <span className='text-xs'>{cartCount && (cartCount < 10 ? cartCount : "9+")}</span>
             </div>
         </Link>
     </Button>
