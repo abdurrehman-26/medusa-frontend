@@ -13,7 +13,7 @@ import { setCart } from '@/features/cart/cartSlice';
 import { Input } from '@/components/ui/input';
 
 const CartPage = () => {
-  const cartItems = useAppSelector((state) => state.cart.items)
+  const cartItems = useAppSelector((state) => state.cart.cartData.items)
   const cartId = Cookies.get("cartId")
   const dispatch = useAppDispatch()
   const incrementCartItemQuantity = async (item: StoreCartLineItem) => {
