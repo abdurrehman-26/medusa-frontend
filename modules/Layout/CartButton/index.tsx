@@ -10,7 +10,7 @@ import { sdk } from '@/lib/sdk';
 
 const CartButton = () => {
   const cartCount = useAppSelector((state) =>
-    state.cart.items?.reduce((total: number, item: HttpTypes.StoreCartLineItem) => total + item.quantity, 0)
+    state.cart.cartData.items?.reduce((total: number, item: HttpTypes.StoreCartLineItem) => total + item.quantity, 0)
   );
   const cartId = Cookies.get("cartId")
   const region_id = Cookies.get("region_id")
