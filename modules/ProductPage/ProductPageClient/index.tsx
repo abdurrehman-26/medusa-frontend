@@ -27,8 +27,8 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
       quantity: cartQuantity,
     })
     .then(({cart}) => {
-      if (cart.items) {
-        dispatch(setCart(cart.items))
+      if (cart) {
+        dispatch(setCart(cart))
         toast.success("Product added to cart")
       }
     })

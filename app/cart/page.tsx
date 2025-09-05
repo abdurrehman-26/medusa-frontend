@@ -9,7 +9,7 @@ import Link from 'next/link';
 import React from 'react'
 import Cookies from 'js-cookie';
 import { HttpTypes, StoreCartLineItem } from '@medusajs/types';
-import { addPromoToCart, removePromoFromCart, setCart } from '@/features/cart/cartSlice';
+import { setCart } from '@/features/cart/cartSlice';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm} from "react-hook-form"
 
@@ -27,34 +27,31 @@ const CartPage = () => {
     if (!cartId) {
       return
     }
-    const prevCartItems = cartItems || []
+    const prevCart = cartData
     const optimisticUpdatedItem = {
       ...item,
       quantity: item.quantity + 1,
     };
 
-    const optimisticCartItems = (cartItems || []).map((cartItem) =>
+    const optimisticCartItems = cartData.items?.map((cartItem) =>
       cartItem.id === item.id ? optimisticUpdatedItem : cartItem
     );
+
+    const optimisticCart = {...prevCart, items: optimisticCartItems}
     
-    dispatch(setCart(optimisticCartItems));
-    try {
+    dispatch(setCart(optimisticCart));
       const incrementResponse = await sdk.store.cart.updateLineItem(cartId, item.id, {
         quantity: item.quantity + 1
       })
       if (!incrementResponse.cart.items) {
-        dispatch(setCart(prevCartItems))
+        dispatch(setCart(prevCart))
       }
-    } catch (error) {
-      console.error(error)
-      dispatch(setCart(prevCartItems))
-    }
   }
   const decrementCartItemQuantity = async (item: StoreCartLineItem) => {
     if (!cartId || item.quantity - 1 < 1 ) {
       return
     }
-    const prevCartItems = cartItems || []
+    const prevCart = cartData
     const optimisticUpdatedItem = {
       ...item,
       quantity: item.quantity - 1,
@@ -63,25 +60,22 @@ const CartPage = () => {
     const optimisticCartItems = (cartItems || []).map((cartItem) =>
       cartItem.id === item.id ? optimisticUpdatedItem : cartItem
     );
+
+    const optimisticCart = {...prevCart, items: optimisticCartItems}
     
-    dispatch(setCart(optimisticCartItems));
-    try {
+    dispatch(setCart(optimisticCart));
       const decrementResponse = await sdk.store.cart.updateLineItem(cartId, item.id, {
         quantity: item.quantity - 1
       })
       if (!decrementResponse.cart.items) {
-        dispatch(setCart(prevCartItems))
+        dispatch(setCart(prevCart))
       }
-    } catch (error) {
-      console.error(error)
-      dispatch(setCart(prevCartItems))
-    }
   }
   const setCartItemQuantity = async (item: StoreCartLineItem, quantity: number) => {
     if (!cartId || quantity < 1) {
       return
     }
-    const prevCartItems = cartItems || []
+    const prevCart = cartData
     const optimisticUpdatedItem = {
       ...item,
       quantity,
@@ -90,40 +84,34 @@ const CartPage = () => {
     const optimisticCartItems = (cartItems || []).map((cartItem) =>
       cartItem.id === item.id ? optimisticUpdatedItem : cartItem
     );
+
+    const optimisticCart = {...prevCart, items: optimisticCartItems}
     
-    dispatch(setCart(optimisticCartItems));
-    try {
+    dispatch(setCart(optimisticCart));
       const setQuantityResponse = await sdk.store.cart.updateLineItem(cartId, item.id, {
         quantity
       })
       if (!setQuantityResponse.cart.items) {
-        dispatch(setCart(prevCartItems))
+        dispatch(setCart(prevCart))
       }
-    } catch (error) {
-      console.error(error)
-      dispatch(setCart(prevCartItems))
-    }
   }
   const deleteCartItem = async (item: StoreCartLineItem) => {
     if (!cartId) {
       return
     }
-    const prevCartItems = cartItems || []
+    const prevCart = cartData
 
     const optimisticCartItems = (cartItems || []).filter((cartItem) =>
       cartItem.id !== item.id
     );
+
+    const optimisticCart = {...prevCart, items: optimisticCartItems}
     
-    dispatch(setCart(optimisticCartItems));
-    try {
+    dispatch(setCart(optimisticCart));
       const deleteItemResponse = await sdk.store.cart.deleteLineItem(cartId, item.id)
       if (!deleteItemResponse.deleted) {
-        dispatch(setCart(prevCartItems))
+        dispatch(setCart(prevCart))
       }
-    } catch (error) {
-      console.error(error)
-      dispatch(setCart(prevCartItems))
-    }
   }
   const applyPromotion: SubmitHandler<PromotionFormValues> = async (data) => {
     const {code} = data
@@ -136,7 +124,7 @@ const CartPage = () => {
     if (!applyPromotionResponse.cart.promotions.some((promotion) => promotion.code === code)) {
       setError("code", {message: "Invalid promo code"})
     }
-    dispatch(addPromoToCart(applyPromotionResponse.cart.promotions))
+    dispatch(setCart(applyPromotionResponse.cart))
   }
   const removePromotion = async () => {
     const removePromotionResponse = await sdk.client.fetch<{cart: HttpTypes.StoreCart}>(`/store/carts/${cartId}/promotions`, {
@@ -146,7 +134,7 @@ const CartPage = () => {
       }
     })
     if (removePromotionResponse.cart) {
-      dispatch(removePromoFromCart())
+      dispatch(setCart(removePromotionResponse.cart))
     }
   }
   return (
@@ -216,10 +204,6 @@ const CartPage = () => {
                 <td>Discount</td>
                 <td className='text-right text-primary'>-1000 PKR</td>
               </tr>
-              <tr className='border-b-2 border-border'>
-                <td>Delivery fee</td>
-                <td className='text-right'>480 PKR</td>
-              </tr>
             </tbody>
           </table>
           <table>
@@ -265,7 +249,7 @@ const CartPage = () => {
                 )
               })()
           ) : <form onSubmit={handleSubmit(applyPromotion)} className='flex gap-3'>
-            <div className='space-y-1'>
+            <div className='space-y-1 flex flex-col flex-grow'>
               <Input className='rounded-full' placeholder="Enter promo code" {...register("code")} />
               <p className='text-sm text-red-600 ml-1'>{formState.errors.code?.message}</p>
             </div>
