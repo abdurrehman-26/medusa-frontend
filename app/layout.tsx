@@ -28,6 +28,7 @@ export default async function RootLayout({
   const userCookies = await cookies();
   const cartId = userCookies.get("cartId")?.value.toString()
   const cartData = await sdk.store.cart.retrieve(cartId!)
+  console.log(cartData)
   return (
     <html suppressHydrationWarning lang="en">
       <body
@@ -38,7 +39,7 @@ export default async function RootLayout({
           <RegionProvider>
             <StoreProvider preloadedState={{
               cart: {
-                items: cartData?.cart?.items || [],
+                cartData: cartData?.cart || [],
                 loading: false,
                 error: null,
               },
