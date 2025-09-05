@@ -12,6 +12,7 @@ import { HttpTypes, StoreCartLineItem } from '@medusajs/types';
 import { setCart } from '@/features/cart/cartSlice';
 import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm} from "react-hook-form"
+import { formatPrice } from '@/lib/utils';
 
 type PromotionFormValues = {
   code: string
@@ -192,17 +193,20 @@ const CartPage = () => {
       </div>
       {cartItems && cartItems.length > 0 && (
         <div className="flex h-fit flex-col gap-3 p-2 py-3 border border-border rounded-2xl col-span-12 md:col-span-4 lg:col-span-3">
-          {/* TODO: fix to show real data */}
           <h2 className='text-xl font-bold'>Order summary</h2>
           <table className='border-spacing-y-3 border-separate border-b border-border'>
             <tbody>
               <tr>
                 <td>Subtotal</td>
-                <td className='text-right'>90000 PKR</td>
+                <td className='text-right'>{formatPrice(cartData.item_subtotal, cartData.currency_code)}</td>
               </tr>
               <tr>
                 <td>Discount</td>
-                <td className='text-right text-primary'>-1000 PKR</td>
+                <td className='text-right text-primary'>-{formatPrice(cartData.discount_total, cartData.currency_code)}</td>
+              </tr>
+              <tr>
+                <td>Tax</td>
+                <td className='text-right'>{formatPrice(cartData.item_tax_total, cartData.currency_code)}</td>
               </tr>
             </tbody>
           </table>
@@ -210,7 +214,7 @@ const CartPage = () => {
             <tbody>
               <tr>
                 <td>Total</td>
-                <td className='text-right'>91480 PKR</td>
+                <td className='text-right'>{formatPrice(cartData.total, cartData.currency_code)}</td>
               </tr>
             </tbody>
           </table>
