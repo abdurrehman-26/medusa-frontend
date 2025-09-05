@@ -45,30 +45,14 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    setCart(state, action: PayloadAction<HttpTypes.StoreCartLineItem[]>) {
-      state.cartData.items = action.payload
+    setCart(state, action: PayloadAction<HttpTypes.StoreCart>) {
+      state.cartData = action.payload
     },
-    addPromoToCart(state, action: PayloadAction<HttpTypes.StoreCartPromotion[]>) {
-      state.cartData.promotions = action.payload
-    },
-    removePromoFromCart(state) {
-      state.cartData.promotions = []
-    },
-    removeFromCart(state, action: PayloadAction<string>) {
-      state.cartData.items = state.cartData.items?.filter(i => i.id !== action.payload)
-    },
-    clearCart(state) {
-      state.cartData.items = []
-    }
   }
 })
 
 export const {
   setCart,
-  addPromoToCart,
-  removePromoFromCart,
-  removeFromCart,
-  clearCart
 } = cartSlice.actions
 
 export default cartSlice.reducer
