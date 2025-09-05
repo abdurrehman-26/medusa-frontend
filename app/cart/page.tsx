@@ -151,7 +151,7 @@ const CartPage = () => {
                   <div className='px-2 flex flex-col flex-grow-1'>
                       <div className='flex items-center'>
                       <div className='flex-grow-1'>
-                          <Link href={`/product/${cartItem.product?.handle}`} className='line-clamp-1 font-semibold max-sm:text-sm hover:underline underline-offset-2'>
+                          <Link href={`/products/${cartItem.product_handle}`} className='line-clamp-1 font-semibold max-sm:text-sm hover:underline underline-offset-2'>
                           {cartItem.title}
                           </Link>
                       </div>
