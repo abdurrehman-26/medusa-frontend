@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local"
 import "./globals.css";
-import { RegionProvider } from "@/providers/region";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/modules/Layout/Navbar";
 import Footer from "@/modules/Layout/Footer";
@@ -28,6 +27,8 @@ export default async function RootLayout({
   const userCookies = await cookies();
   const cartId = userCookies.get("cartId")?.value.toString()
   const cartData = await sdk.store.cart.retrieve(cartId!)
+  const regionId = userCookies.get("regionId")?.value
+  const regionData = await sdk.store.region.retrieve(regionId!)
   console.log(cartData)
   return (
     <html suppressHydrationWarning lang="en">
@@ -36,8 +37,12 @@ export default async function RootLayout({
       >
         <Toaster />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <RegionProvider>
             <StoreProvider preloadedState={{
+              region: {
+                regionData: regionData.region,
+                loading: false,
+                error: null
+              },
               cart: {
                 cartData: cartData?.cart || [],
                 loading: false,
@@ -50,7 +55,6 @@ export default async function RootLayout({
               </main>
             </StoreProvider>
             <Footer />
-          </RegionProvider>
         </ThemeProvider>
       </body>
     </html>
