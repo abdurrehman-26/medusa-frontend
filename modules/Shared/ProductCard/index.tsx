@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { formatPrice } from '@/lib/utils'
+import { useAppSelector } from '@/store/hooks';
 import { HttpTypes } from '@medusajs/types'
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image'
@@ -14,6 +15,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
     e.preventDefault();   // stops the link navigation
     e.stopPropagation();  // stops bubbling to parent
   }
+  const region = useAppSelector(state => state.region.regionData)
   return (
     <Link href={`/products/${product.handle}`}>
       <Card className='p-0 overflow-hidden w-56'>
@@ -31,7 +33,7 @@ function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
               <p className='truncate font-medium text-lg mb-2'>{product.title}</p>
               <p className='truncate text-sm mb-1'>{product.categories?.[0]?.name || "Unknown"}</p>
               <p className="truncate text-sm text-foreground/70 mb-2">
-                {formatPrice(product.variants?.[0]?.calculated_price?.calculated_amount ?? 0)}
+                {formatPrice(product.variants?.[0]?.calculated_price?.calculated_amount ?? 0, region.currency_code )}
               </p>
             </div>
             <Button type='button' onClick={addtoCartHandle} className='w-full'>
