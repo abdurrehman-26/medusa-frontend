@@ -1,9 +1,11 @@
 // store/index.ts
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import cartReducer from "@/features/cart/cartSlice"
+import regionReducer from "@/features/region/regionSlice"
 
 const rootReducer = combineReducers({
   cart: cartReducer,
+  region: regionReducer
 })
 
 export const createStore = (preloadedState?: Partial<RootState>) =>
