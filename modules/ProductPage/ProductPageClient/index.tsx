@@ -7,16 +7,18 @@ import { Button } from '@/components/ui/button';
 import { Minus, Plus } from 'lucide-react';
 import { sdk } from '@/lib/sdk';
 import { toast } from 'sonner';
-import Cookies from 'js-cookie';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setCart } from '@/features/cart/cartSlice';
 
 const ProductPageClient = ({product}: {product: StoreProduct}) => {
 
   const dispatch = useAppDispatch()
 
+  const region = useAppSelector(state => state.region.regionData)
+
+  const cartId = useAppSelector(state => state.cart.cartData.id)
+
   const addToCartHandle = (variant_id?: string) => {
-    const cartId = Cookies.get("cartId")
 
     if (!cartId || !variant_id) {
       return
@@ -71,8 +73,8 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
         <div className='col-span-12 sm:col-span-6 max-sm:pt-3'>
             <p className='text-3xl font-bold max-sm:mt-5'>{product.title}</p>
             <div className='py-2 flex gap-2'>
-                <p className={cn(`truncate text-xl text-foreground/70 font-bold`, selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && "line-through")}>{formatPrice(selectedVariant?.calculated_price?.original_amount ?? 0)}</p>
-                {selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && <p className="truncate text-sm text-foreground/70">{formatPrice(selectedVariant?.calculated_price?.calculated_amount ?? 0)}</p>}
+                <p className={cn(`truncate text-xl text-foreground/70 font-bold`, selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && "line-through")}>{formatPrice(selectedVariant?.calculated_price?.original_amount ?? 0, region.currency_code)}</p>
+                {selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && <p className="truncate text-sm text-foreground/70">{formatPrice(selectedVariant?.calculated_price?.calculated_amount ?? 0, region.currency_code)}</p>}
             </div>
             <p className='pb-3 border-b border-border'>{product.description}</p>
             {(product.options?.length || 0) > 1 && (
