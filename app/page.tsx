@@ -1,17 +1,13 @@
-import { sdk } from "@/lib/sdk";
 import CollectionsSection from "@/modules/Home/CollectionsSection";
 import { Carousel } from "@/modules/Shared/Carousel";
 import { cookies as nextCookies } from "next/headers";
 
 export default async function Home() {
+  if (!process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID) {
+    throw new Error("Default region not set in environment variables");
+  }
   const cookies = await nextCookies()
-  const regionsResponse = await sdk.store.region.list()
-  const defaultRegion = regionsResponse.regions.find(region =>
-    region.countries?.some(
-      country => country.iso_2 === process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION
-    )
-  )
-  const region_id = cookies.get("region_id")?.value || defaultRegion?.id
+  const region_id = cookies.get("region_id")?.value || process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID
   const SLIDES = [
     {
       imageurl:
@@ -36,7 +32,7 @@ export default async function Home() {
         <Carousel slides={SLIDES} />
       </div>
       <main>
-        <CollectionsSection regionId={region_id!} />
+        <CollectionsSection regionId={region_id} />
       </main>
     </div>
   );

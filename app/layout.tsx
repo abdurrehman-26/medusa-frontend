@@ -24,12 +24,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (!process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID) {
+    throw new Error("Default region not set in environment variables");
+  }
   const userCookies = await cookies();
   const cartId = userCookies.get("cartId")?.value.toString()
   const cartData = await sdk.store.cart.retrieve(cartId!)
-  const regionId = userCookies.get("regionId")?.value
-  const regionData = await sdk.store.region.retrieve(regionId!)
-  console.log(cartData)
+  const regionId = userCookies.get("regionId")?.value || process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID
+  const regionData = await sdk.store.region.retrieve(regionId)
   return (
     <html suppressHydrationWarning lang="en">
       <body
@@ -44,7 +46,7 @@ export default async function RootLayout({
                 error: null
               },
               cart: {
-                cartData: cartData?.cart || [],
+                cartData: cartData?.cart,
                 loading: false,
                 error: null,
               },
