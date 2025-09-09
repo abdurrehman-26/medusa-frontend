@@ -2,8 +2,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { HttpTypes } from "@medusajs/types"
 
+interface StoreCart extends HttpTypes.StoreCart {
+  discount_subtotal?: number
+}
+
 export interface CartState {
-  cartData: HttpTypes.StoreCart
+  cartData: StoreCart
   loading: boolean
   error: string | null
 }
