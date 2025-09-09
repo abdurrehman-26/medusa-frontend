@@ -7,7 +7,7 @@ export default async function Home() {
     throw new Error("Default region not set in environment variables");
   }
   const cookies = await nextCookies()
-  const region_id = cookies.get("region_id")?.value || process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID
+  const region_id = cookies.get("regionId")?.value || process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID
   const SLIDES = [
     {
       imageurl:
