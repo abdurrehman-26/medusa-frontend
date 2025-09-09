@@ -16,7 +16,7 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
 
   const region = useAppSelector(state => state.region.regionData)
 
-  const cartId = useAppSelector(state => state.cart.cartData.id)
+  const cartId = useAppSelector(state => state.cart.cartData?.id)
 
   const addToCartHandle = (variant_id?: string) => {
 
