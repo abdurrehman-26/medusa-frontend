@@ -65,6 +65,13 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
 
   const [cartQuantity, setCartQuantity] = useState<number>(1)
 
+  function cartQuantityChangeHandle(quantity: number) {
+    if (quantity <= 0 || quantity > 999) {
+      return
+    }
+    setCartQuantity(quantity)
+  }
+
   return (
     <div className='grid grid-cols-12 sm:gap-5 pt-3 sm:pt-10'>
         <div className='col-span-12 sm:col-span-6'>
@@ -105,15 +112,17 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
                 ))}
               </ul>
             )}
-            <div className='py-5 flex gap-3'>
-              <div className='flex bg-accent p-1 rounded-full'>
-                <button className='cursor-pointer' type='button' onClick={() => setCartQuantity(cartQuantity - 1)}>
-                  <Minus />
-                </button>
-                  <input type="text" value={cartQuantity} className='max-w-10 outline-none text-center' onChange={(e) => setCartQuantity(Number(e.target.value))} />
-                <button className='cursor-pointer' type='button' onClick={() => setCartQuantity(cartQuantity + 1)}>
-                  <Plus />
-                </button>
+            <div className='py-5 flex gap-3 items-center'>
+              <div>
+                <div className='flex'>
+                  <button className='flex rounded bg-accent cursor-pointer' disabled={cartQuantity === 1} onClick={() => cartQuantityChangeHandle(cartQuantity - 1)}>
+                    <Minus />
+                  </button>
+                    <input className='w-10 text-center outline-none' value={cartQuantity} onChange={(e) => cartQuantityChangeHandle(Number(e.target.value))} />
+                  <button className='flex rounded bg-accent cursor-pointer' onClick={() => cartQuantityChangeHandle(cartQuantity + 1)}>
+                    <Plus />
+                  </button>
+                </div>
               </div>
               <Button type='button' className='flex-grow rounded-full' onClick={() => addToCartHandle(selectedVariant?.id)}>Add to cart</Button>
             </div>
