@@ -9,6 +9,7 @@ import { sdk } from '@/lib/sdk';
 import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setCart } from '@/features/cart/cartSlice';
+import Link from 'next/link';
 
 const ProductPageClient = ({product}: {product: StoreProduct}) => {
 
@@ -77,17 +78,20 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
         <div className='col-span-12 sm:col-span-6'>
             <ProductCarousel slides={product.images} />
         </div>
-        <div className='col-span-12 sm:col-span-6 max-sm:pt-3'>
-            <p className='text-3xl font-bold max-sm:mt-5'>{product.title}</p>
-            <div className='py-2 flex gap-2'>
-                <p className={cn(`truncate text-xl text-foreground/70 font-bold`, selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && "line-through")}>{formatPrice(selectedVariant?.calculated_price?.original_amount ?? 0, region.currency_code)}</p>
-                {selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && <p className="truncate text-sm text-foreground/70">{formatPrice(selectedVariant?.calculated_price?.calculated_amount ?? 0, region.currency_code)}</p>}
+        <div className='col-span-12 sm:col-span-6 max-sm:pt-3 flex flex-col divide-y divide-border'>
+            <div className='mb-auto'>
+              <p className='text-3xl font-bold max-sm:mt-5'>{product.title}</p>
+              <Link className='text-accent-foreground' href={`/categories/${product.categories?.[0].handle}`}>{product.categories?.[0].name}</Link>
+              <div className='py-2 flex gap-2'>
+                  <p className={cn(`truncate text-xl text-foreground/70 font-bold`, selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && "line-through")}>{formatPrice(selectedVariant?.calculated_price?.original_amount ?? 0, region.currency_code)}</p>
+                  {selectedVariant?.calculated_price?.calculated_price?.price_list_type === 'sale' && <p className="truncate text-sm text-foreground/70">{formatPrice(selectedVariant?.calculated_price?.calculated_amount ?? 0, region.currency_code)}</p>}
+              </div>
+              <p className='pb-3'>{product.description}</p>
             </div>
-            <p className='pb-3 border-b border-border'>{product.description}</p>
             {(product.options?.length || 0) > 1 && (
-              <ul>
+              <ul className='divide-y divide-border'>
                 {product.options!.map((option) => (
-                  <li key={option.id} className='py-5 border-b border-border'>
+                  <li key={option.id} className='py-5'>
                     <p className='mb-2'>{option.title}</p>
                     <div className='flex flex-wrap gap-3'>
                       {option.values?.map((optionValue) => (
@@ -112,7 +116,7 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
                 ))}
               </ul>
             )}
-            <div className='py-5 flex gap-3 items-center'>
+            <div className='flex gap-3 items-center py-5'>
               <div>
                 <div className='flex'>
                   <button className='flex rounded bg-accent cursor-pointer' disabled={cartQuantity === 1} onClick={() => cartQuantityChangeHandle(cartQuantity - 1)}>
@@ -124,7 +128,7 @@ const ProductPageClient = ({product}: {product: StoreProduct}) => {
                   </button>
                 </div>
               </div>
-              <Button type='button' className='flex-grow rounded-full' onClick={() => addToCartHandle(selectedVariant?.id)}>Add to cart</Button>
+              <Button type='button' className='flex-grow rounded-full' size="lg" onClick={() => addToCartHandle(selectedVariant?.id)}>Add to cart</Button>
             </div>
         </div>
     </div>
