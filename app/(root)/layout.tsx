@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local"
-import "./globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "@/modules/Layout/Navbar";
 import Footer from "@/modules/Layout/Footer";
@@ -10,7 +10,7 @@ import { StoreProvider } from "@/providers/store-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 const SpaceGroteskFont = localFont({
-  src: "../fonts/SpaceGrotesk.ttf"
+  src: "../../fonts/SpaceGrotesk.ttf"
 })
 
 
