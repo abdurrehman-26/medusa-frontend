@@ -103,10 +103,6 @@ const CartPage = () => {
                 <td className='text-right text-primary'>-{formatPrice(cartData.discount_subtotal!, cartData.currency_code)}</td>
               </tr>
               <tr>
-                <td>Subtotal(discounted)</td>
-                <td className='text-right'>{formatPrice(cartData.item_subtotal - cartData.discount_subtotal!, cartData.currency_code)}</td>
-              </tr>
-              <tr>
                 <td>Tax</td>
                 <td className='text-right'>{formatPrice(cartData.item_tax_total, cartData.currency_code)}</td>
               </tr>
