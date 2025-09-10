@@ -17,7 +17,7 @@ type PromotionFormValues = {
 }
 const CartPage = () => {
   const cartData = useAppSelector((state) => state.cart.cartData)
-  const cartItems = cartData.items
+  const cartItems = cartData?.items
   const dispatch = useAppDispatch()
 
   const [removingPromotion, setRemovingPromotion] = useState<boolean>(false)
