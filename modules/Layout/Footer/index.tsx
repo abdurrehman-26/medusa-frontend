@@ -1,12 +1,11 @@
 import { sdk } from '@/lib/sdk'
 import Link from 'next/link'
 import React from 'react'
-import RegionSelector from '../RegionSelector'
+import RegionSelectorLink from '../RegionSelectorLink'
 
 const Footer = async () => {
   const collections = await sdk.store.collection.list().then((collectionResponse) => collectionResponse.collections)
   const categories = await sdk.store.category.list().then((collectionResponse) => collectionResponse.product_categories)
-  const regions = (await sdk.store.region.list()).regions
   return (
     <div className='bg-foreground/3'>
       <div className='grid grid-cols-12 max-w-7xl mx-auto p-4 min-h-80'>
@@ -16,7 +15,7 @@ const Footer = async () => {
               MyStore
             </Link>
           </div>
-          <RegionSelector regions={regions} />
+          <RegionSelectorLink />
         </div>
         <div className='space-y-2 max-sm:pt-5 col-span-12 sm:col-span-2'>
           {collections.map((collection) => {
