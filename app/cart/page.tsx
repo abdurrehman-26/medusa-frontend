@@ -28,30 +28,21 @@ const CartPage = () => {
     if (!cartData.id) return;
     const { code } = data;
     
-    // No optimistic update needed here since the promo code validity is unknown.
-
-    try {
-      // API Call
-      const applyPromotionResponse = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(
-        `/store/carts/${cartData.id}/promotions`,
-        {
-          method: "post",
-          body: {
-            promo_codes: [code],
-          },
-        }
-      );
-
-      // Dispatch Final State
-      if (applyPromotionResponse.cart) {
-        dispatch(setCart(applyPromotionResponse.cart));
-      } else {
-        throw new Error("Invalid promo code");
+    // API Call
+    const applyPromotionResponse = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(
+      `/store/carts/${cartData.id}/promotions`,
+      {
+        method: "post",
+        body: {
+          promo_codes: [code],
+        },
       }
-      
-    } catch (error) {
-      console.error("Failed to apply promo code:", error);
-      // Handle error by setting form error state
+    );
+
+    // Dispatch Final State
+    if (applyPromotionResponse.cart.promotions.length > 0) {
+      dispatch(setCart(applyPromotionResponse.cart));
+    } else {
       setError("code", { message: "Invalid promo code" });
     }
   };
