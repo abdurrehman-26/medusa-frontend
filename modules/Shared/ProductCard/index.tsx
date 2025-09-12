@@ -13,7 +13,7 @@ import React from 'react'
 import { toast } from 'sonner';
 
 function ProductCard({product}: {product: HttpTypes.StoreProduct}) {
-  const cartId = useAppSelector(state => state.cart.cartData.id)
+  const cartId = useAppSelector(state => state.cart.cartData?.id)
   const dispatch = useAppDispatch()
   const productImage = product.thumbnail ?? product.images?.[0].url ?? "/placeholders/product-placeholder.webp"
   const addtoCartHandle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
