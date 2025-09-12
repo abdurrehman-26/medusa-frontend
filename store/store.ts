@@ -2,10 +2,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import cartReducer from "@/features/cart/cartSlice"
 import regionReducer from "@/features/region/regionSlice"
+import customerSlice from "@/features/customer/customerSlice"
 
 const rootReducer = combineReducers({
   cart: cartReducer,
-  region: regionReducer
+  region: regionReducer,
+  customer: customerSlice
 })
 
 export const createStore = (preloadedState?: Partial<RootState>) =>
