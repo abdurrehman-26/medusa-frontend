@@ -3,7 +3,7 @@ import localFont from "next/font/local"
 import "@/app/globals.css";
 import { ThemeProvider } from "next-themes";
 import { cookies } from "next/headers";
-import { sdk } from "@/lib/sdk";
+import { createSessionedSdk, sdk } from "@/lib/sdk";
 import { StoreProvider } from "@/providers/store-provider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -27,9 +27,13 @@ export default async function RootLayout({
   }
   const userCookies = await cookies();
   const cartId = userCookies.get("cartId")?.value.toString()
-  const cartData = await sdk.store.cart.retrieve(cartId!)
+  const cartData = cartId
+  ? await sdk.store.cart.retrieve(cartId).catch(() => null)
+  : null;
   const regionId = userCookies.get("regionId")?.value || process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID
   const regionData = await sdk.store.region.retrieve(regionId)
+  const sessionedSdk = createSessionedSdk(userCookies.toString())
+  const customerData = await sessionedSdk.store.customer.retrieve().catch(() => null)
   return (
     <html suppressHydrationWarning lang="en">
       <body
@@ -48,6 +52,9 @@ export default async function RootLayout({
                 loading: false,
                 error: null,
               },
+              customer: {
+                customerData: customerData?.customer
+              }
             }}>
               {children}
             </StoreProvider>
