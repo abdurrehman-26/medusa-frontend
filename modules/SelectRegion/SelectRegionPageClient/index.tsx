@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 
 function SelectRegionPageClient({regions}: {regions: StoreRegion[]}) {
   const region = useAppSelector(state => state.region.regionData)
-  const cartId = useAppSelector(state => state.cart.cartData.id)
+  const cartId = useAppSelector(state => state.cart.cartData?.id)
   const dispatch = useAppDispatch()
   const [regionValue, setRegionValue] = useState<string>(region.id)
   async function HandleRegionChange() {

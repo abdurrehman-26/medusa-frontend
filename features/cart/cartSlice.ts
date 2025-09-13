@@ -7,7 +7,7 @@ interface StoreCart extends HttpTypes.StoreCart {
 }
 
 export interface CartState {
-  cartData: StoreCart
+  cartData?: StoreCart
   loading: boolean
   error: string | null
 }
