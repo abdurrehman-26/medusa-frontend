@@ -3,9 +3,10 @@ import localFont from "next/font/local"
 import "@/app/globals.css";
 import { ThemeProvider } from "next-themes";
 import { cookies } from "next/headers";
-import { createSessionedSdk, sdk } from "@/lib/sdk";
+import { sdk } from "@/lib/sdk";
 import { StoreProvider } from "@/providers/store-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { createSessionedSdk } from "@/lib/sessionedSdk";
 
 const SpaceGroteskFont = localFont({
   src: "../fonts/SpaceGrotesk.ttf"
@@ -32,7 +33,7 @@ export default async function RootLayout({
   : null;
   const regionId = userCookies.get("regionId")?.value || process.env.NEXT_PUBLIC_MEDUSA_DEFAULT_REGION_ID
   const regionData = await sdk.store.region.retrieve(regionId)
-  const sessionedSdk = createSessionedSdk(userCookies.toString())
+  const sessionedSdk = await createSessionedSdk()
   const customerData = await sessionedSdk.store.customer.retrieve().catch(() => null)
   return (
     <html suppressHydrationWarning lang="en">
