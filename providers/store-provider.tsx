@@ -1,8 +1,9 @@
 // app/providers/redux-provider.tsx
 "use client"
+
 import { Provider } from "react-redux"
 import { createStore, RootState } from "@/store/store"
-import { useRef } from "react"
+import { useMemo } from "react"
 
 export function StoreProvider({
   children,
@@ -11,6 +12,7 @@ export function StoreProvider({
   children: React.ReactNode
   preloadedState?: Partial<RootState>
 }) {
-  const storeRef = useRef(createStore(preloadedState))
-  return <Provider store={storeRef.current}>{children}</Provider>
+  const store = useMemo(() => createStore(preloadedState), [preloadedState])
+
+  return <Provider store={store}>{children}</Provider>
 }
