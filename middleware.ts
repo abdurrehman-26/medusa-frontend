@@ -6,7 +6,7 @@ import type { NextRequest } from 'next/server';
 const publicOnlyRoutes = ['/login', '/signup'];
 
 // Routes that require authentication
-const protectedRoutes = ['/checkout', '/profile'];
+const protectedRoutes = ['/profile'];
 
 export function middleware(request: NextRequest) {
   // Check for the Medusa session cookie
