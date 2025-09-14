@@ -25,12 +25,12 @@ const CartPage = () => {
   const {register, handleSubmit, formState, setError} = useForm<PromotionFormValues>()
   
   const applyPromotion: SubmitHandler<PromotionFormValues> = async (data) => {
-    if (!cartData.id) return;
+    if (!cartData?.id) return;
     const { code } = data;
     
     // API Call
     const applyPromotionResponse = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(
-      `/store/carts/${cartData.id}/promotions`,
+      `/store/carts/${cartData?.id}/promotions`,
       {
         method: "post",
         body: {
@@ -49,10 +49,10 @@ const CartPage = () => {
   const removePromotion = async () => {
     setRemovingPromotion(true)
     try {
-      const removePromotionResponse = await sdk.client.fetch<{cart: HttpTypes.StoreCart}>(`/store/carts/${cartData.id}/promotions`, {
+      const removePromotionResponse = await sdk.client.fetch<{cart: HttpTypes.StoreCart}>(`/store/carts/${cartData?.id}/promotions`, {
         method: "delete",
         body: {
-          promo_codes: [cartData.promotions[0].code]
+          promo_codes: [cartData?.promotions[0].code]
         }
       })
       if (removePromotionResponse.cart) {
@@ -113,13 +113,13 @@ const CartPage = () => {
                 return (
                   <div>
                     <p className='text-primary ml-1'>Promo code applied</p>
-                    <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50 p-1 px-2">
+                    <div className="flex items-center justify-between rounded-xl border p-1 px-2">
                       <div className="space-y-1">
                         <p className="font-semibold text-sm uppercase tracking-wide">
                           {promo.code}
                         </p>
                         {promo.application_method && (
-                          <p className="text-xs text-gray-600">
+                          <p className="text-xs">
                             {promo.application_method.type === "percentage"
                               ? `${promo.application_method.value}% off`
                               : `-${promo.application_method.value} ${promo.application_method.currency_code?.toUpperCase()}`}
