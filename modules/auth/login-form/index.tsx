@@ -10,8 +10,9 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { sdk } from "@/lib/sdk"
 import { toast } from "sonner"
-import { useAppDispatch } from "@/store/hooks"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
 import { setCustomer } from "@/features/customer/customerSlice"
+import { setCart } from "@/features/cart/cartSlice"
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
@@ -25,6 +26,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"form">) {
   const dispatch = useAppDispatch()
+  const cartId = useAppSelector(state => state.cart.cartData?.id)
   const router = useRouter()
 
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
@@ -46,6 +48,14 @@ export function LoginForm({
 
     // all next requests will be authenticated
     const { customer } = await sdk.store.customer.retrieve()
+
+    if (cartId) {
+      await sdk.store.cart.transferCart(cartId).catch(() => {
+        toast.error("Failed to transfer cart")
+      })
+      const {cart} = await sdk.store.cart.retrieve(cartId)
+      dispatch(setCart(cart))
+    }
 
     dispatch(setCustomer(customer))
 
