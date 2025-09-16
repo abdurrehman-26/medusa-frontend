@@ -52,11 +52,15 @@ export const cartSlice = createSlice({
     setCart(state, action: PayloadAction<HttpTypes.StoreCart>) {
       state.cartData = action.payload
     },
+    clearCart(state) {
+      state.cartData = undefined
+    },
   }
 })
 
 export const {
   setCart,
+  clearCart
 } = cartSlice.actions
 
 export default cartSlice.reducer
