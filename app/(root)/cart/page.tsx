@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { SubmitHandler, useForm} from "react-hook-form"
 import { formatPrice } from '@/lib/utils';
 import CartItem from '@/modules/Cart/CartItem';
+import { startCheckOut } from '@/lib/action';
 
 type PromotionFormValues = {
   code: string
@@ -150,7 +151,9 @@ const CartPage = () => {
               {formState.isSubmitting ? "Applying..." : "Apply"}
             </Button>
           </form>}
-          <Button className='rounded-full items-center'>Go to checkout<ArrowRight /></Button>
+          <form action={startCheckOut}>
+            <Button className='rounded-full w-full items-center'>Go to checkout<ArrowRight /></Button>
+          </form>
         </div>
       )}
       </div>
